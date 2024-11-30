@@ -1,0 +1,38 @@
+/* Đảm bảo các truyện tranh có thể sắp xếp ngang */
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .comic-item {
+    width: calc(25% - 20px); /* Mỗi item chiếm 1/4 chiều rộng (giảm khoảng cách 20px giữa các item) */
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .comic-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .comic-item h3 {
+    font-size: 18px;
+    margin-top: 10px;
+  }
+  
+  .comic-item p {
+    font-size: 14px;
+  }
+  
+  .comic-item a {
+    color: blue;
+    text-decoration: underline;
+    font-size: 14px;
+  }  
