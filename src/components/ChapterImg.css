@@ -1,0 +1,16 @@
+.chapter-container {
+    margin-top: 20px;
+  }
+  
+  .chapter-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  
+  .chapter-images img {
+    display: block;
+    margin-bottom: 10px;
+    max-width: 100%;
+    border-radius: 8px;
+  }
+  

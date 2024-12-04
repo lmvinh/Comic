@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './components/HomePage';  // Import đúng tệp HomePage
+import HomePage from './components/HomePage';
 import ComicDetail from './components/ComicDetail';
 import InforPage from './components/InforPage';
 
