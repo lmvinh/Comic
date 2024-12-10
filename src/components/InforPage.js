@@ -37,11 +37,16 @@ const InforPage = () => {
     fetchComicDetail();
   }, [slug]);
 
-  const handleChapterClick = (chapter) => {
+  const handleChapterClick = (chapter, index) => {
     navigate(`/chapter/${chapter.chapter_name}`, {
-      state: { chapterApiUrl: chapter.chapter_api_data },
+      state: {
+        chapters: chapters, // Truyền tất cả các chương
+        currentChapterIndex: index, // Truyền chỉ số chương hiện tại
+        chapterApiUrl: chapter.chapter_api_data, // Truyền URL API của chương
+      },
     });
   };
+    
 
   if (loading) {
     return <div>Đang tải dữ liệu...</div>;
@@ -73,7 +78,7 @@ const InforPage = () => {
           {chapters.map((chapter, index) => (
             <li key={index} className="infor-chapter-item">
               <button
-                onClick={() => handleChapterClick(chapter)}
+                onClick={() => handleChapterClick(chapter, index)}
                 className="infor-chapter-button"
               >
                 Chương {chapter.chapter_name}
@@ -86,4 +91,4 @@ const InforPage = () => {
   );
 };
 
-export default InforPage;
+export default InforPage
