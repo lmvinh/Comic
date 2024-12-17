@@ -18,19 +18,21 @@ const ChapterImg = () => {
       }
 
       try {
-        const response = await axios.get(state.chapterApiUrl);
+        const response = await axios.get(state.chapterApiUrl, { timeout: 10000 }); // Thêm timeout 10 giây
+        console.log("API Response: ", response.data); // Log dữ liệu trả về để debug
+      
         const chapterData = response.data.data.item;
-
-        setChapterName(chapterData.chapter_name); // Lưu tên chương
+      
+        setChapterName(chapterData.chapter_name);
         const chapterImages = chapterData.chapter_image.map((image) => ({
           imageUrl: `${response.data.data.domain_cdn}/${chapterData.chapter_path}/${image.image_file}`,
         }));
-
-        setImages(chapterImages); // Cập nhật danh sách hình ảnh
+      
+        setImages(chapterImages);
       } catch (err) {
         console.error("Lỗi khi tải dữ liệu chương:", err.message);
-        setError(err.message); // Xử lý lỗi
-      }
+        setError("Lỗi kết nối đến server. Vui lòng thử lại sau.");
+      }      
     };
 
     fetchChapterImages(); // Gọi hàm fetch dữ liệu khi component mount
