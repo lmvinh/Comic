@@ -84,3 +84,20 @@
   background-color: #ff7f00; /* Màu nổi bật cho trang hiện tại */
   color: white;
 }
+
+/* Logout Button */
+.logout-button {
+  padding: 10px 15px;
+  margin: 10px 0;
+  background-color: #dc3545; /* Red color for logout */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #c82333; /* Darker red on hover */
+}

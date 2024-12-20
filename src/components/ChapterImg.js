@@ -34,7 +34,6 @@ const ChapterImg = () => {
         setError("Lỗi kết nối đến server. Vui lòng thử lại sau.");
       }      
     };
-
     fetchChapterImages(); // Gọi hàm fetch dữ liệu khi component mount
 
     // Cuộn lên đầu trang mỗi khi chuyển sang chapter mới

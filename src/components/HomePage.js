@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './HomePage.css'; // Import file CSS
+import { Link } from 'react-router-dom'; // Import Link từ react-router-dom
+import {useLocation, useNavigate} from 'react-router-dom';
 
 const HomePage = () => {
+  const location=useLocation()
+  const navigate = useNavigate();
+
   const [comics, setComics] = useState([]); // Dữ liệu truyện tranh
   const [loading, setLoading] = useState(true); // Trạng thái tải
   const [error, setError] = useState(null); // Trạng thái lỗi
@@ -35,13 +40,25 @@ const HomePage = () => {
     }
   };
 
+  const handleLogout = () => {
+    navigate('/login', { state: { id: null } });
+  };
+
   if (loading) return <div>Đang tải dữ liệu...</div>;
   if (error) return <div>Có lỗi xảy ra: {error}</div>;
 
   const pageNumbers = Array.from({ length: 5 }, (_, index) => page + index).filter(p => p <= totalPages);
 
   return (
+    
     <div className="homepage-container">
+                  <h1>Hello {location.state.id} and welcome to the home</h1>
+
+            <button onClick={handleLogout}>Logout</button>
+
+            <Link to="/recharge"> {/* Nút dẫn đến RechargePage */}
+        <button className="recharge-button">Nạp Xu</button>
+      </Link>
       <h1 className="homepage-title">Danh sách truyện tranh</h1>
       <div className="container">
         {comics.map((comic) => (
