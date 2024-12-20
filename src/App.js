@@ -11,11 +11,11 @@ const App = () => {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<HomePage />} /> {/* Route cho HomePage */}
+        <Route path="/home" element={<HomePage />} /> {/* Route cho HomePage */}
         <Route path="/comic/:slug" element={<InforPage />} /> {/* Route cho thông tin truyện */}
         <Route path="/chapter/:chapterName" element={<ChapterImg />} /> {/* Route cho chương */}
         <Route path="/recharge" element={<RechargePage />} /> {/* Route cho trang nạp xu */}
-        <Route path="/login" element={<Login />} /> {/* Route cho trang nạp xu */}
+        <Route path="/" element={<Login />} /> {/* Route cho trang nạp xu */}
         <Route path="/signup" element={<Signup/>}/>
 
       </Routes>
