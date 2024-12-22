@@ -15,11 +15,13 @@ function Login() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         const { cash, valuecash } = e.target;
+        const { email, valueMail } = e.target;
 
         console.log(name, value);
         const copyLoginInfo = { ...loginInfo };
         copyLoginInfo[name] = value;
         copyLoginInfo[cash] = valuecash;
+        copyLoginInfo[email] = valueMail;
 
         setLoginInfo(copyLoginInfo);
     }
@@ -40,12 +42,13 @@ function Login() {
                 body: JSON.stringify(loginInfo)
             });
             const result = await response.json();
-            const { success, message, jwtToken, name, error,cash } = result;
+            const { success, message, jwtToken, name, error,cash,email } = result;
             if (success) {
                 handleSuccess(message);
                 localStorage.setItem('token', jwtToken);
                 localStorage.setItem('loggedInUser', name);
                 localStorage.setItem('cash', cash);
+                localStorage.setItem('loggedInMail', email);
 
                 setTimeout(() => {
                     navigate('/home')

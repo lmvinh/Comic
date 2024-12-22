@@ -16,12 +16,13 @@ const HomePage = () => {
   const searchInputRef = useRef(null); 
   const [loggedInUser, setLoggedInUser] = useState('');
   const [cash, setCash] = useState('');
+  const [loggedInMail, setloggedInMail] = useState('');
 
   const navigate = useNavigate(); 
   useEffect(() => {
     setLoggedInUser(localStorage.getItem('loggedInUser'))
     setCash(localStorage.getItem('cash'))
-
+    setloggedInMail(localStorage.getItem('loggedInMail'))
 }, [])
   // Fetch search results based on keyword
   const fetchSearchResults = async () => {
@@ -97,6 +98,9 @@ const HomePage = () => {
   const handleLogout = (e) => {
     localStorage.removeItem('token');
     localStorage.removeItem('loggedInUser');
+    localStorage.removeItem('cash');
+    localStorage.removeItem('loggedInMail');
+
     handleSuccess('User Loggedout');
     setTimeout(() => {
         navigate('/');
@@ -124,8 +128,18 @@ const HomePage = () => {
         <button onClick={handleLogout} className="logout-button">
         Đăng xuất
       </button>
+    
       </div>
-
+      <div>
+      <button onClick={() => navigate('/payment')} className="payment-button">
+          Nạp Xu
+        </button>
+      </div>
+      <div>
+      <button onClick={() => navigate('/add-comic')} className="payment-button">
+          Đăng truyện
+        </button>
+      </div>
       <h1 className="homepage-title">Danh sách truyện tranh</h1>
 
       <div className="search-container">

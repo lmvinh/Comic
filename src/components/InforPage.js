@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import "./InforPage.css";
 import "./HomePage.css"; // Import CSS từ HomePage để sử dụng khung xanh
+import { handleError, handleSuccess } from '../untils';
 
 const InforPage = () => {
   const { slug } = useParams();
@@ -10,6 +11,17 @@ const InforPage = () => {
   const [chapters, setChapters] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [cash, setCash] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState('');
+  const [loggedInMail, setLoggedInMail] = useState('');
+
+  useEffect(() => {
+    setLoggedInUser(localStorage.getItem('loggedInUser'))
+    setCash(localStorage.getItem('cash'))
+    setLoggedInMail(localStorage.getItem('loggedInMail'))
+
+
+}, [])
   const navigate = useNavigate();
 
   const removeHtmlTags = (htmlString) => {
@@ -39,17 +51,69 @@ const InforPage = () => {
   }, [slug]);
 
   const handleChapterClick = (chapter, index) => {
-    navigate(`/chapter/${chapter.chapter_name}`, {
+    // Subtract 5 from cash and update local storage
+    const currentCash = parseFloat(cash) || 0; // Ensure cash is a number
+    const newCash = currentCash - 5;
+    setCash(newCash.toString()); // Update state
+    localStorage.setItem('cash', newCash.toString()); // Update local storage
+
+     navigate(`/chapter/${chapter.chapter_name}`, {
       state: {
         chapters: chapters, // Truyền tất cả các chương
         currentChapterIndex: index, // Truyền chỉ số chương hiện tại
         chapterApiUrl: chapter.chapter_api_data, // Truyền URL API của chương
       },
     });
-  };
 
+
+    try{
+    const cashUpdateUrl = `http://localhost:8000/auth/updatecash`;
+    const response =  fetch(cashUpdateUrl, {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ email: loggedInMail, cash: newCash }) // Update cash in the database
+    });
+    const result =  response.json();
+    const { success, message, error } = result;
+    if (success) {
+      handleSuccess(message);
+    } else if (error) {
+      handleError(error);
+    }
+  }
+  catch(err){
+    handleError(err);
+  }
+
+};
   const handleReadFirstChapter = () => {
     if (chapters.length > 0) {
+      const currentCash = parseFloat(cash) || 0; // Ensure cash is a number
+    const newCash = currentCash - 5;
+    setCash(newCash.toString()); // Update state
+    localStorage.setItem('cash', newCash.toString()); // Update local storage
+    try{
+      const cashUpdateUrl = `http://localhost:8000/auth/updatecash`;
+      const response =  fetch(cashUpdateUrl, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: loggedInMail, cash: newCash }) // Update cash in the database
+      });
+      const result =  response.json();
+      const { success, message, error } = result;
+      if (success) {
+        handleSuccess(message);
+      } else if (error) {
+        handleError(error);
+      }
+    }
+    catch(err){
+      handleError(err);
+    }
       const firstChapter = chapters[0]; // Lấy chương 1
       navigate(`/chapter/${firstChapter.chapter_name}`, {
         state: {

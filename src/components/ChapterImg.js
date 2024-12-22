@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import "./ChapterImg.css"; // Import file CSS
+import { handleError, handleSuccess } from '../untils';
 
 const ChapterImg = () => {
   const { state } = useLocation();
@@ -9,7 +10,16 @@ const ChapterImg = () => {
   const [images, setImages] = useState([]);
   const [chapterName, setChapterName] = useState("");
   const [error, setError] = useState(null);
+  const [cash, setCash] = useState('');
+  const [loggedInUser, setLoggedInUser] = useState('');
+  const [loggedInMail, setLoggedInMail] = useState('');
 
+  useEffect(() => {
+    setLoggedInUser(localStorage.getItem('loggedInUser'))
+    setCash(localStorage.getItem('cash'))
+    setLoggedInMail(localStorage.getItem('loggedInMail'))
+
+}, [])
   useEffect(() => {
     const fetchChapterImages = async () => {
       if (!state || !state.chapterApiUrl) {
@@ -38,6 +48,32 @@ const ChapterImg = () => {
 
   const handlePreviousChapter = () => {
     if (state && state.chapters && state.currentChapterIndex > 0) {
+    const currentCash = parseFloat(cash) || 0; // Ensure cash is a number
+    const newCash = currentCash - 5;
+    setCash(newCash.toString()); // Update state
+    localStorage.setItem('cash', newCash.toString()); // Update local storage
+    try{
+      const cashUpdateUrl = `http://localhost:8000/auth/updatecash`;
+      const response =  fetch(cashUpdateUrl, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: loggedInMail, cash: newCash }) // Update cash in the database
+      });
+      const result =  response.json();
+      const { success, message, error } = result;
+      if (success) {
+        handleSuccess(message);
+      } else if (error) {
+        handleError(error);
+      }
+    }
+    catch(err){
+      handleError(err);
+    }  
+
+
       const prevChapter = state.chapters[state.currentChapterIndex - 1];
       navigate(`/chapter/${prevChapter.chapter_name}`, {
         state: {
@@ -51,7 +87,37 @@ const ChapterImg = () => {
 
   const handleNextChapter = () => {
     if (state && state.chapters && state.currentChapterIndex < state.chapters.length - 1) {
+      const currentCash1 = parseFloat(cash) || 0; // Ensure cash is a number
+      const newCash1 = currentCash1 - 5;
+      setCash(newCash1.toString()); // Update state
+      localStorage.setItem('cash', newCash1.toString()); // Update local storage
+      try{
+        const cashUpdateUrl = `http://localhost:8000/auth/updatecash`;
+        const response =  fetch(cashUpdateUrl, {
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ email: loggedInMail, cash: newCash1 }) // Update cash in the database
+        });
+        const result =  response.json();
+        const { success, message, error } = result;
+        if (success) {
+          handleSuccess(message);
+        } else if (error) {
+          handleError(error);
+        }
+      }
+      catch(err){
+        handleError(err);
+      }  
+  
+      
       const nextChapter = state.chapters[state.currentChapterIndex + 1];
+      const currentCash = parseFloat(cash) || 0; // Ensure cash is a number
+    const newCash = currentCash - 5;
+    setCash(newCash.toString()); // Update state
+    localStorage.setItem('cash', newCash.toString()); // Update local storage
       navigate(`/chapter/${nextChapter.chapter_name}`, {
         state: {
           chapters: state.chapters,

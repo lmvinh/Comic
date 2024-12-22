@@ -67,7 +67,49 @@ const login = async (req, res) => {
     }
 }
 
+
+const updateCash = async (req, res) => {
+    try {
+        const { email, cash } = req.body;
+
+        // Validate inputs
+        if (!email || typeof cash !== 'number') {
+            return res.status(400).json({
+                message: "Invalid request payload",
+                success: false,
+            });
+        }
+        
+        // Ensure email is a string
+        const emailString = typeof email === 'object' ? email.loggedInMail : email;
+
+        const user = await UserModel.findOne({ email: emailString });
+        if (!user) {
+            return res.status(404).json({
+                message: "User not found",
+                success: false,
+            });
+        }
+
+        user.cash = cash; // Update the cash balance
+        await user.save(); // Save the updated user
+
+        res.status(200).json({
+            message: "Cash updated successfully",
+            success: true,
+            cash: user.cash,
+        });
+    } catch (err) {
+        console.error('Update cash error:', err.message);
+        res.status(500).json({
+            message: "Internal server error",
+            success: false,
+        });
+    }
+};
+
 module.exports = {
     signup,
-    login
-}
+    login,
+    updateCash,
+};
