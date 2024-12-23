@@ -3,7 +3,7 @@ import axios from 'axios';
 import './HomePage.css'; 
 import { useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../untils';
-
+import PaypalCheckoutButton from './PaypalCheckoutButton';
 const HomePage = () => {
   const [comics, setComics] = useState([]); 
   const [loading, setLoading] = useState(true); 
@@ -17,7 +17,10 @@ const HomePage = () => {
   const [loggedInUser, setLoggedInUser] = useState('');
   const [cash, setCash] = useState('');
   const [loggedInMail, setloggedInMail] = useState('');
-
+  const product = {
+    description: "Learn how to build a website with React JS",
+    price: 5,
+};
   const navigate = useNavigate(); 
   useEffect(() => {
     setLoggedInUser(localStorage.getItem('loggedInUser'))
@@ -131,8 +134,9 @@ const HomePage = () => {
     
       </div>
       <div>
-      <button onClick={() => navigate('/payment')} className="payment-button">
-          Nạp Xu
+      <button onClick={() => navigate('/')} className="payment-button">
+      <PaypalCheckoutButton product={product} />
+    Nạp xu
         </button>
       </div>
       <div>

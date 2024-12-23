@@ -10,8 +10,9 @@ import Signup from "./components/Signup"
 import Payment1k from "./components/Payment1k"
 import AddComic from './components/AddComic'; // Đảm bảo rằng đường dẫn đúng
 import ComicList from './components/ComicList'; // Trang danh sách truyện mới
-
+import {PayPalScriptProvider} from "@paypal/react-paypal-js";
 const App = () => {
+  
   const [comics, setComics] = useState([]); // Danh sách truyện
 
   const addComic = (comic) => {
@@ -21,13 +22,16 @@ const App = () => {
     setComics([...comics, newComic]); // Thêm truyện vào danh sách
   };
   return (
+    <PayPalScriptProvider
+    options={{"client-id": ""}}
+  >
     <Router>
       <Routes>
         <Route path="/home" element={<HomePage />} /> {/* Route cho HomePage */}
         <Route path="/comic/:slug" element={<InforPage />} /> {/* Route cho thông tin truyện */}
         <Route path="/chapter/:chapterName" element={<ChapterImg />} /> {/* Route cho chương */}
         <Route path="/recharge" element={<RechargePage />} /> {/* Route cho trang nạp xu */}
-        <Route path="/" element={<Login />} /> {/* Route cho trang nạp xu */}
+        <Route path="/" element={<Login />} /> 
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/payment" element={<Payment1k/>}/>
         <Route path="/add-comic" element={<AddComic addComic={addComic} />} /> {/* Trang đăng truyện */}
@@ -36,6 +40,8 @@ const App = () => {
 
       </Routes>
     </Router>
+    </PayPalScriptProvider>
+
   );
 };
 
