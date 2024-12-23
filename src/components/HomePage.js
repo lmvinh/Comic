@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react'; 
 import axios from 'axios'; 
+import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import { tokens } from "../Theme";
+import InputBase from '@mui/material/InputBase';
+import SearchIcon from "@mui/icons-material/Search";
+
 import './HomePage.css'; 
 import { useNavigate } from 'react-router-dom';
 import { handleError, handleSuccess } from '../untils';
@@ -62,6 +67,9 @@ const HomePage = () => {
       fetchSearchResults(); // Thực hiện tìm kiếm khi nhấn Enter
     }
   };
+  const theme = useTheme();
+
+  const colors = tokens(theme.palette.mode);
 
   // Fetch comics data when page changes (if not searching)
   useEffect(() => {
@@ -125,28 +133,57 @@ const HomePage = () => {
 
   return (
     <div className="homepage-container">
- 
-      <div className="homepage-header" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
-        <div className="homepage-logo" title="Nhấn để trở về trang đầu">Comic HEHE xin chào {loggedInUser} , {loggedInUser} đang có {cash} xu</div>
+  <Box display="flex" justifyContent="space-between" p={2}>
+      <div className="homepage-header"  style={{ cursor: 'pointer' }}>
+      <Typography variant="h5" color={colors.greenAccent[100]}>
+      Comic HEHE xin chào {loggedInUser} , {loggedInUser} đang có {cash} xu      </Typography>
+        <Box>
         <button onClick={handleLogout} className="logout-button">
         Đăng xuất
       </button>
-    
+      </Box>
+      <Box>
+
+      <button onClick={() => navigate('/add-comic')} className="payment-button">
+          Đăng truyện
+        </button>
+        </Box>
+
       </div>
-      <div>
+      <Box >
       <button onClick={() => navigate('/')} className="payment-button">
       <PaypalCheckoutButton product={product} />
     Nạp xu
         </button>
-      </div>
       <div>
-      <button onClick={() => navigate('/add-comic')} className="payment-button">
-          Đăng truyện
-        </button>
-      </div>
-      <h1 className="homepage-title">Danh sách truyện tranh</h1>
 
-      <div className="search-container">
+      </div>
+      </Box>
+      </Box>
+      <h1 className="homepage-title"  color={colors.greenAccent[800]}>
+
+     Danh sách truyện tranh
+      </h1>
+
+
+      <Box
+        display="flex"
+        backgroundColor={colors.primary[400]}
+        borderRadius="10px"
+        margin = "20px"
+      >
+        <InputBase sx={{ ml: 2, flex: 1 }} ref={searchInputRef}
+          type="text"
+          value={searchKeyword}
+          onChange={(e) => setSearchKeyword(e.target.value)} 
+          onKeyDown={handleKeyDown} 
+          placeholder="Tìm kiếm truyện..."
+          className="search-input"/>
+        <IconButton type="button" sx={{ p: 1 }}>
+          <SearchIcon />
+        </IconButton>
+      </Box>
+      {/* <div className="search-container">
         <input
           ref={searchInputRef}
           type="text"
@@ -156,8 +193,7 @@ const HomePage = () => {
           placeholder="Tìm kiếm truyện..."
           className="search-input"
         />
-      </div>
-
+      </div> */}
       <div className="container">
         {displayedComics.map((comic) => (
           <div key={comic._id} className="comic-item">

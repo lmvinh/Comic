@@ -1,48 +1,71 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import HomePage from './components/HomePage';
+import Topbar from "./global/TopBar";
+import Sidebar from "./global/SideBar";
 import ComicDetail from './components/ComicDetail';
 import InforPage from './components/InforPage';
-import ChapterImg from './components/ChapterImg'; // Import thêm ChapterImg
-import RechargePage from './components/RechargePage'; // Import RechargePage mới
-import Login from "./components/Login"
-import Signup from "./components/Signup"
-import Payment1k from "./components/Payment1k"
-import AddComic from './components/AddComic'; // Đảm bảo rằng đường dẫn đúng
-import ComicList from './components/ComicList'; // Trang danh sách truyện mới
-import {PayPalScriptProvider} from "@paypal/react-paypal-js";
-const App = () => {
-  
-  const [comics, setComics] = useState([]); // Danh sách truyện
+import ChapterImg from './components/ChapterImg';
+import RechargePage from './components/RechargePage';
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import Payment1k from "./components/Payment1k";
+import AddComic from './components/AddComic';
+import ComicList from './components/ComicList';
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { ColorModeContext, useMode } from "./Theme";
+
+const AppContent = () => {
+  const location = useLocation(); // Get the current location
+  const [isSidebar, setIsSidebar] = useState(true);
+  const [comics, setComics] = useState([]); // List of comics
 
   const addComic = (comic) => {
-    // Lưu ảnh bìa vào folder hoặc server
-    // Bạn có thể dùng FormData để upload file lên server hoặc xử lý ảnh bìa ở đây
+    // Save the comic cover locally or on a server
     const newComic = { ...comic, coverUrl: URL.createObjectURL(comic.cover) };
-    setComics([...comics, newComic]); // Thêm truyện vào danh sách
+    setComics([...comics, newComic]); // Add new comic to the list
   };
+
+  // Define paths where Sidebar and Topbar should not be rendered
+  const noLayoutPaths = ["/", "/signup"];
+
+  const showLayout = !noLayoutPaths.includes(location.pathname);
+
   return (
-    <PayPalScriptProvider
-    options={{"client-id": ""}}
-  >
-    <Router>
-      <Routes>
-        <Route path="/home" element={<HomePage />} /> {/* Route cho HomePage */}
-        <Route path="/comic/:slug" element={<InforPage />} /> {/* Route cho thông tin truyện */}
-        <Route path="/chapter/:chapterName" element={<ChapterImg />} /> {/* Route cho chương */}
-        <Route path="/recharge" element={<RechargePage />} /> {/* Route cho trang nạp xu */}
-        <Route path="/" element={<Login />} /> 
-        <Route path="/signup" element={<Signup/>}/>
-        <Route path="/payment" element={<Payment1k/>}/>
-        <Route path="/add-comic" element={<AddComic addComic={addComic} />} /> {/* Trang đăng truyện */}
-        <Route path="/comics" element={<ComicList comics={comics} />} /> {/* Trang danh sách truyện */}
-
-
-      </Routes>
-    </Router>
-    </PayPalScriptProvider>
-
+    <div className="app">
+      {showLayout && <Sidebar isSidebar={isSidebar} />}
+      <main className="content">
+        {showLayout && <Topbar setIsSidebar={setIsSidebar} />}
+        <PayPalScriptProvider options={{ "client-id": "" }}>
+          <Routes>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/comic/:slug" element={<InforPage />} />
+            <Route path="/chapter/:chapterName" element={<ChapterImg />} />
+            <Route path="/recharge" element={<RechargePage />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/payment" element={<Payment1k />} />
+            <Route path="/add-comic" element={<AddComic addComic={addComic} />} />
+            <Route path="/comics" element={<ComicList comics={comics} />} />
+          </Routes>
+        </PayPalScriptProvider>
+      </main>
+    </div>
   );
 };
 
-export default App
+const App = () => {
+  const [theme, colorMode] = useMode();
+
+  return (
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+          <AppContent />
+      </ThemeProvider>
+    </ColorModeContext.Provider>
+  );
+};
+
+export default App;

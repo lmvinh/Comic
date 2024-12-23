@@ -22,21 +22,28 @@ body{
 }
 
 .container1{
-  background-color: #FFF;
-  padding: 32px 48px;
-  border-radius: 10px;
   width: 100%;
-  max-width: 400px;
-  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px;
+  box-sizing: border-box;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.container > h1{
+.container1 > h1{
   margin-bottom: 20px;
   align-items: center;
   justify-content: center;
-
+  color: #000;
 }
-
+.container1 span{
+  margin-bottom: 20px;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+}
 .container1 > form{
   display: flex;
   flex-direction: column;
