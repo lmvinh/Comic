@@ -11,7 +11,6 @@ const corConfig = {
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }
-app.options("",corConfig);
 app.get('/ping', (req, res) => {
   res.send('PONG');
 });
