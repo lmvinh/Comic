@@ -27,7 +27,7 @@ function Signup() {
             return handleError('name, email and password are required')
         }
         try {
-            const url = `https://comic-elvu9d2bq-lmvinhs-projects.vercel.app/auth/signup`;
+            const url = `http://localhost:8000/auth/signup`;
             const response = await fetch(url, {
                 method: "POST",
                 headers: {
