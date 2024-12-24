@@ -67,7 +67,7 @@ const InforPage = () => {
 
 
     try{
-    const cashUpdateUrl = `https://comic-o93mff9mf-lmvinhs-projects.vercel.app/auth/updatecash`;
+    const cashUpdateUrl = `https://comic-drab.vercel.app/auth/updatecash`;
     const response =  fetch(cashUpdateUrl, {
       method: "POST",
       headers: {
@@ -95,7 +95,7 @@ const InforPage = () => {
     setCash(newCash.toString()); // Update state
     localStorage.setItem('cash', newCash.toString()); // Update local storage
     try{
-      const cashUpdateUrl = `https://comic-o93mff9mf-lmvinhs-projects.vercel.app/auth/updatecash`;
+      const cashUpdateUrl = `https://comic-drab.vercel.app/auth/updatecash`;
       const response =  fetch(cashUpdateUrl, {
         method: "POST",
         headers: {
