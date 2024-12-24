@@ -6,7 +6,7 @@ const AuthRouter = require('./Routes/AuthRouter');
 const ProductRouter = require('./Routes/ProductRouter');
 
 require('./Models/db');
-const PORT = process.env.PORT || 8000;
+const PORT =  "https://comic-lake-two.vercel.app/";
 
 app.get('/ping', (req, res) => {
     res.send('PONG');

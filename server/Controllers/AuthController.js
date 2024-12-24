@@ -8,7 +8,7 @@ const signup = async (req, res) => {
         const user = await UserModel.findOne({ email });
         if (user) {
             return res.status(409)
-                .json({ message: 'User is already exist, you can login', success: false });
+                .json({ message: 'User is already exist, you can t login', success: false });
         }
         const userModel = new UserModel({ name, email, password });
         userModel.password = await bcrypt.hash(password, 10);
