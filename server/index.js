@@ -6,7 +6,12 @@ const AuthRouter = require('./Routes/AuthRouter');
 const ProductRouter = require('./Routes/ProductRouter');
 
 require('./Models/db');
-
+const corConfig = {
+    origin: '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    credentials: true,
+}
+app.options("",corConfig);
 app.get('/ping', (req, res) => {
   res.send('PONG');
 });
