@@ -137,7 +137,7 @@ const ChapterImg = () => {
       {/* Khung xanh phía trên */}
       <div className="chapter-img-header" onClick={() => navigate("/")} style={{ cursor: "pointer" }}>
         <div className="homepage-logo" title="Nhấn để trở về trang đầu">
-          Tam Cô Nương
+          COMIC HEHE 
         </div>
       </div>
   
