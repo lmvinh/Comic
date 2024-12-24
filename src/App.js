@@ -6,10 +6,8 @@ import Sidebar from "./global/SideBar";
 import ComicDetail from './components/ComicDetail';
 import InforPage from './components/InforPage';
 import ChapterImg from './components/ChapterImg';
-import RechargePage from './components/RechargePage';
 import Login from "./components/Login";
 import Signup from "./components/Signup";
-import Payment1k from "./components/Payment1k";
 import AddComic from './components/AddComic';
 import ComicList from './components/ComicList';
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -42,10 +40,8 @@ const AppContent = () => {
             <Route path="/home" element={<HomePage />} />
             <Route path="/comic/:slug" element={<InforPage />} />
             <Route path="/chapter/:chapterName" element={<ChapterImg />} />
-            <Route path="/recharge" element={<RechargePage />} />
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
-            <Route path="/payment" element={<Payment1k />} />
             <Route path="/add-comic" element={<AddComic addComic={addComic} />} />
             <Route path="/comics" element={<ComicList comics={comics} />} />
           </Routes>

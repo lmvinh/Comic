@@ -51,11 +51,11 @@ const PaypalCheckoutButton = (props) => {
 
                 handleApprove(data.orderID);
                 const currentCash = parseFloat(cash) || 0; // Ensure cash is a number
-                const newCash = currentCash +100;
+                const newCash = currentCash + 100;
                 setCash(newCash.toString()); // Update state
                 localStorage.setItem('cash', newCash.toString()); // Update local storage
                 try{
-                    const cashUpdateUrl = `https://comic-lake-two.vercel.app/auth/updatecash`;
+                    const cashUpdateUrl = `http://localhost:8000/auth/updatecash`;
                     const response =  fetch(cashUpdateUrl, {
                       method: "POST",
                       headers: {
