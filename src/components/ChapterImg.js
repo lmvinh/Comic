@@ -49,7 +49,7 @@ const ChapterImg = () => {
   const handlePreviousChapter = () => {
     if (state && state.chapters && state.currentChapterIndex > 0) {
     const currentCash = parseFloat(cash) || 0; // Ensure cash is a number
-    const newCash = currentCash - 5;
+    const newCash = currentCash;
     setCash(newCash.toString()); // Update state
     localStorage.setItem('cash', newCash.toString()); // Update local storage
     try{
